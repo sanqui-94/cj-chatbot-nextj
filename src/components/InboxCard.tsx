@@ -37,7 +37,11 @@ export default function InboxCard({
     startTransition(async () => {
       const res = await action();
       if (res.ok) revalidate();
-      else setError(res.error);
+      else {
+        setError(res.error);
+        // Stale card (the order already moved on): refetch so it drops out.
+        if (res.stale) revalidate();
+      }
     });
   }
 
