@@ -1,0 +1,51 @@
+// Prisma schema for the taxi-orders app.
+// See IMPLEMENTATION.md §3 for the full data-model rationale.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Connection URLs live in prisma.config.ts (Prisma 7). The runtime client
+  // connects via the Neon driver adapter; see src/lib/db.ts.
+}
+
+enum Status {
+  WAITING
+  DISPATCHED
+  ARCHIVED
+}
+
+model Order {
+  id            String    @id @default(cuid())
+  code          String    @unique // P-MMDD-NNNN, generated atomically in a transaction
+  passengerName String
+  phone         String // normalized +591XXXXXXXX
+  pickupAddress String
+  destination   String?
+  notes         String?
+  status        Status    @default(WAITING)
+  dispatchedAt  DateTime?
+  archivedAt    DateTime?
+  ipHash        String? // anti-abuse per-IP throttle
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([status, createdAt]) // FIFO inbox
+  @@index([createdAt, id]) // history range + cursor pagination
+}
+
+model DailyCounter {
+  day   String @id // local-date key, e.g. "2026-06-12" (America/La_Paz)
+  count Int    @default(0)
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+}

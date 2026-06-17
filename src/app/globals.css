@@ -1,0 +1,688 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Radio Taxi Ciudad Jardín — public form (brand split layout).
+   Ported from the hi-fi design (web-alternative/styles.css), with
+   font families wired to the next/font variables from layout.tsx.
+   ───────────────────────────────────────────────────────────── */
+
+/* ─── Brand tokens ──────────────────────────────────────────── */
+:root {
+  --blue: #05327d;
+  --blue-dark: #021f54;
+  --blue-darker: #011640;
+  --blue-tint: #e8eef8;
+  --red: #c2112b;
+  --green: #074b26;
+  --green-wa: #25d366;
+  --green-wa-dark: #1ebe5d;
+  --cream: #faf7f1;
+  --ink: #0d1429;
+  --ink2: #475069;
+  --ink3: #8a90a3;
+  --line: #e3e5ec;
+  --warn: #b34c2f;
+
+  --lp-gap: 18px;
+  --lp-pad: 12px;
+
+  --font-body: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-manrope), sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.lp-display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+.lp-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Page shell ── */
+.lp-app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "head form"
+    "body form";
+}
+
+/* ── Brand head (logo bar) ── */
+.lp-brand-head {
+  grid-area: head;
+  background: var(--blue);
+  color: var(--cream);
+  padding: 28px 44px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+}
+
+/* ── Brand body (hero + foot) ── */
+.lp-brand-body {
+  grid-area: body;
+  background: linear-gradient(
+    180deg,
+    var(--blue) 0%,
+    var(--blue-dark) 60%,
+    var(--blue-darker) 100%
+  );
+  color: var(--cream);
+  padding: 32px 44px 36px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.lp-brand-bg {
+  position: absolute;
+  right: -180px;
+  bottom: -180px;
+  width: 680px;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.lp-brand-logo {
+  height: 56px;
+  width: auto;
+  display: block;
+}
+.lp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.lp-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-wa);
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25);
+}
+.lp-brand-logo-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+.lp-brand-hero {
+  position: relative;
+}
+.lp-hero-title {
+  font-size: clamp(40px, 4.6vw, 64px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+}
+.lp-hero-title em {
+  font-style: normal;
+  color: var(--red);
+}
+.lp-hero-sub {
+  font-size: 16px;
+  opacity: 0.85;
+  max-width: 380px;
+  margin: 0;
+  line-height: 1.55;
+}
+.lp-features {
+  display: flex;
+  gap: 22px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  position: relative;
+}
+.lp-feat {
+  font-size: 13px;
+  opacity: 0.88;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+.lp-feat-i {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+.lp-brand-foot {
+  margin-top: 36px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+}
+.lp-call {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  color: inherit;
+}
+.lp-call-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.65;
+  font-weight: 600;
+}
+.lp-call-num {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  font-family: var(--font-display);
+}
+.lp-social {
+  display: flex;
+  gap: 10px;
+}
+.lp-social-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    background 0.15s,
+    border-color 0.15s;
+  text-decoration: none;
+}
+.lp-social-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-2px);
+}
+.lp-social-btn[data-net="whatsapp"]:hover {
+  background: var(--green-wa);
+  border-color: var(--green-wa);
+}
+.lp-social-btn[data-net="facebook"]:hover {
+  background: #1877f2;
+  border-color: #1877f2;
+}
+.lp-social-btn[data-net="instagram"]:hover {
+  background: linear-gradient(
+    45deg,
+    #f09433,
+    #e6683c,
+    #dc2743,
+    #cc2366,
+    #bc1888
+  );
+  border-color: transparent;
+}
+
+/* ── Form panel ── */
+.lp-form-wrap {
+  grid-area: form;
+  background: var(--cream);
+  padding: 48px clamp(24px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.lp-form-head {
+  margin-bottom: 28px;
+}
+.lp-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin: 0 0 6px;
+}
+.lp-form-title {
+  font-size: clamp(28px, 3.4vw, 40px);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.lp-form-sub {
+  font-size: 15px;
+  color: var(--ink2);
+  margin: 0;
+}
+
+/* ── Field ── */
+.lp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--lp-gap) 16px;
+}
+.lp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.lp-field.lp-wide {
+  grid-column: 1 / -1;
+}
+.lp-lbl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.lp-lbl-i {
+  font-size: 14px;
+  line-height: 1;
+}
+.lp-lbl-opt {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-left: auto;
+}
+
+.lp-input,
+.lp-textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: var(--lp-pad) 14px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s,
+    background 0.15s;
+  outline: none;
+}
+.lp-input::placeholder,
+.lp-textarea::placeholder {
+  color: var(--ink3);
+}
+.lp-input:focus,
+.lp-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(5, 50, 125, 0.1);
+}
+.lp-textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.45;
+}
+.lp-input.lp-err,
+.lp-textarea.lp-err {
+  border-color: var(--warn);
+  box-shadow: 0 0 0 4px rgba(179, 76, 47, 0.1);
+}
+.lp-help {
+  font-size: 12px;
+  color: var(--ink3);
+}
+.lp-help.lp-err-msg {
+  color: var(--warn);
+  font-weight: 600;
+}
+
+/* CTA */
+.lp-cta-row {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.lp-cta {
+  flex: 1 1 280px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--green-wa);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 20px 28px;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.1s,
+    box-shadow 0.15s;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+}
+.lp-cta:hover:not(:disabled) {
+  background: var(--green-wa-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+}
+.lp-cta:active:not(:disabled) {
+  transform: translateY(0);
+}
+.lp-cta:disabled {
+  background: var(--line);
+  color: var(--ink3);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.lp-cta-hint {
+  font-size: 12px;
+  color: var(--ink2);
+}
+
+/* Form-level error / success */
+.lp-alert {
+  margin-top: 20px;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.lp-alert-err {
+  background: rgba(179, 76, 47, 0.08);
+  border: 1.5px solid rgba(179, 76, 47, 0.3);
+  color: var(--warn);
+}
+
+/* Success panel */
+.lp-success {
+  background: #e5f6dc;
+  border: 1.5px solid #c9e8b8;
+  border-radius: 16px;
+  padding: 28px 26px;
+}
+.lp-success-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2c5e1c;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 12px;
+}
+.lp-success-head .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green-wa);
+}
+.lp-success-title {
+  font-size: 22px;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.lp-success-body {
+  font-size: 15px;
+  color: var(--ink2);
+  margin: 0;
+  line-height: 1.6;
+}
+.lp-code {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  color: var(--green);
+  background: #fff;
+  border: 1.5px solid #c9e8b8;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin: 10px 0;
+}
+.lp-success-again {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+.lp-success-again:hover {
+  background: var(--blue-dark);
+  transform: translateY(-1px);
+}
+
+/* Footer line */
+.lp-foot {
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink3);
+}
+
+/* Visually-hidden (honeypot) */
+.lp-hp {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .lp-app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "head" "form" "body";
+  }
+  .lp-brand-head {
+    padding: 18px 22px;
+  }
+  .lp-brand-body {
+    padding: 28px 22px 32px;
+  }
+  .lp-brand-logo-plate {
+    padding: 8px 14px;
+    border-radius: 10px;
+  }
+  .lp-brand-logo {
+    height: 38px;
+  }
+  .lp-form-wrap {
+    min-height: auto;
+    padding: 26px 20px 36px;
+  }
+  .lp-hero-title {
+    font-size: 42px;
+  }
+  .lp-cta {
+    padding: 11px 16px;
+    font-size: 14px;
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+  }
+  .lp-cta-row {
+    gap: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .lp-grid {
+    grid-template-columns: 1fr;
+  }
+  .lp-brand-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .lp-form-wrap {
+    padding: 22px 16px 32px;
+  }
+  .lp-form-head {
+    margin-bottom: 18px;
+  }
+  .lp-form-title {
+    font-size: 24px;
+  }
+  .lp-hero-title {
+    font-size: 36px;
+  }
+  .lp-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .lp-cta {
+    flex: 0 0 auto;
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  .lp-cta-hint {
+    text-align: center;
+    font-size: 11px;
+  }
+}
+
+/* ── Operator login ── */
+.lp-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: linear-gradient(180deg, var(--blue) 0%, var(--blue-darker) 100%);
+}
+.lp-login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--cream);
+  border-radius: 18px;
+  padding: 36px clamp(24px, 5vw, 40px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+.lp-login-head {
+  margin-bottom: 24px;
+}
+.lp-login-title {
+  font-size: clamp(24px, 4vw, 32px);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.lp-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lp-login-form .lp-cta {
+  margin-top: 6px;
+  flex: 0 0 auto;
+}
+.lp-login-form .lp-alert {
+  margin-top: 0;
+}
+
+/* ── Operator panel (placeholder until Phase 4) ── */
+.lp-panel {
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px clamp(20px, 5vw, 56px);
+}
+.lp-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.lp-panel-title {
+  font-size: clamp(24px, 3.4vw, 34px);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+.lp-panel-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lp-panel-email {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.lp-panel-signout {
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--ink2);
+  border-radius: 10px;
+  padding: 9px 16px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+.lp-panel-signout:hover {
+  background: var(--blue-tint);
+  border-color: var(--blue);
+  color: var(--blue);
+}
