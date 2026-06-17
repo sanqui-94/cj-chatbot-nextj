@@ -151,8 +151,8 @@ model User {
 | 1 | Prisma schema + `DailyCounter` + migration | `prisma studio` shows `Order`, `DailyCounter`, `User` tables | ✅ Done — migration `20260617164212_init` applied; all three tables + indexes verified |
 | 2 | Visitor portal (form + Server Action + code in confirmation) | Submitting returns a code and persists a row; Zod rejects bad input on both client and server | ✅ Done — data layer verified via `scripts/verify-phase2.ts`; page renders (200). Full browser submit not yet automated |
 | 3 | NextAuth (Credentials + JWT) + `hash-pw` helper | Unauthenticated `/inbox` redirects to login; a manually-seeded operator logs in | ✅ Done — Auth.js v5 (Credentials + JWT, argon2id); unauth `/inbox` → 307 `/login`; seeded operator logs in (302 → `/inbox`), wrong password rejected. Verified via `scripts/verify-phase3.ts` + full curl login round-trip |
-| 4 | Inbox cards + badge color coding + 4 actions | Dispatch/archive/revert persist; badge colors match thresholds; clipboard buttons copy both templates | ⬜ Not started |
-| 5 | SWR polling (inbox + history) | Two open tabs converge within ~4s; polling pauses when the tab is hidden | ⬜ Not started |
+| 4 | Inbox cards + badge color coding + 4 actions | Dispatch/archive/revert persist; badge colors match thresholds; clipboard buttons copy both templates | ✅ Done — `/inbox` loads the full WAITING queue FIFO asc and renders one card per order; badge colours match the §6 thresholds (green ≤15 / amber ≤25 / red >25), live-ticking each minute; dispatch + archive Server Actions persist with timestamps and `router.refresh()`; revert (used in History) nulls both timestamps; clipboard buttons copy both templates (empty optionals omitted). Verified via `scripts/verify-phase4.ts` (transitions + badge + templates) + `pnpm build`/`pnpm lint`. Browser click-through not yet automated |
+| 5 | SWR polling (inbox + history) | Two open tabs converge within ~4s; polling pauses when the tab is hidden | ✅ Done (inbox) — `/api/inbox` session-guarded read handler is the SWR fetcher; `InboxFeed` seeds from the server render (`fallbackData`) then polls every `POLL_INTERVAL_MS` (4000ms); SWR's `refreshWhenHidden: false` pauses polling on a hidden tab and `revalidateOnFocus` snaps back on return. Mutations now revalidate the SWR key (`mutate()`) instead of `router.refresh()`. Verified via `scripts/verify-phase5.sh` (401 unauth / 200 + JSON array authed, full curl login round-trip against `pnpm start`); two-tab convergence + hidden-tab pause are SWR behaviours confirmed in-browser. **History polling reuses this pattern in Phase 6** (table + `/api/history` land there) |
 | 6 | History table + cursor pagination + range/status filter | Paging is stable while new orders arrive; window/filter work; never loads everything | ⬜ Not started |
 | 7 | Vercel deploy (Neon pooled + DIRECT_URL, `AUTH_SECRET`, `/api/health`) | Live URL works; migrations applied; health check returns 200; uptime monitor green | ⬜ Not started |
 
@@ -204,11 +204,13 @@ These reflect what actually shipped and supersede assumptions in the spec where 
 ### File map (so far)
 - `src/lib/config.ts` — tunable constants · `src/lib/db.ts` — Prisma singleton · `src/lib/time.ts` — La Paz date helpers · `src/lib/validation.ts` — shared Zod schema + phone normalization · `src/lib/ip.ts` — client IP + salted hash · `src/lib/password.ts` — argon2id hash/verify.
 - `src/auth.ts` — Auth.js config (Credentials + JWT) · `src/app/api/auth/[...nextauth]/route.ts` — auth handlers · `src/types/next-auth.d.ts` — session `id` augmentation.
-- `src/app/actions/orders.ts` — `createOrder` Server Action.
+- `src/app/actions/orders.ts` — `createOrder` Server Action · `src/app/actions/inbox.ts` — guarded `dispatchOrder` / `archiveOrder` / `revertToWaiting` mutations (revalidate `/inbox` + `/history`).
+- `src/lib/badge.ts` — waiting-minutes + badge-level helpers · `src/lib/templates.ts` — `OrderView` type + driver-block / customer-message clipboard templates · `src/lib/orders.ts` — `getWaitingOrders()` shared by the page + route handler · `src/lib/fetcher.ts` — shared SWR `jsonFetcher`.
+- `src/app/api/inbox/route.ts` — session-guarded WAITING-queue read handler (SWR fetcher) · `src/components/InboxFeed.tsx` — SWR-polled client wrapper (`fallbackData` + `refreshInterval`) feeding `InboxList`.
 - `src/app/page.tsx` + `src/components/OrderForm.tsx` — public portal (restyled to the brand split design).
 - `src/app/login/page.tsx` + `src/app/login/actions.ts` + `src/components/LoginForm.tsx` — operator login.
-- `src/app/inbox/page.tsx` — guarded inbox placeholder + sign-out (cards land in Phase 4).
-- `scripts/verify-phase2.ts`, `scripts/verify-phase3.ts` — data-layer checkpoints · `scripts/hash-pw.ts` (`pnpm hash-pw`) · `scripts/create-operator.ts` (`pnpm create-operator`).
+- `src/app/inbox/page.tsx` — guarded inbox: loads WAITING queue, renders `InboxList` + sign-out · `src/components/InboxList.tsx` — client list with the shared per-minute clock (`useSyncExternalStore`) · `src/components/InboxCard.tsx` — client card with badge, 4 actions, clipboard.
+- `scripts/verify-phase2.ts`, `scripts/verify-phase3.ts`, `scripts/verify-phase4.ts` — data-layer checkpoints · `scripts/verify-phase5.sh` — `/api/inbox` guard + payload (HTTP round-trip) · `scripts/hash-pw.ts` (`pnpm hash-pw`) · `scripts/create-operator.ts` (`pnpm create-operator`).
 
 ### Operator provisioning
 - Canonical: `pnpm hash-pw "<password>"` → paste the hash into a `User` row in Neon.
