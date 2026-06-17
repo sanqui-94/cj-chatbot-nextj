@@ -634,7 +634,7 @@ body {
   margin-top: 0;
 }
 
-/* ── Operator panel (placeholder until Phase 4) ── */
+/* ── Operator panel ── */
 .lp-panel {
   min-height: 100vh;
   max-width: 1100px;
@@ -685,4 +685,149 @@ body {
   background: var(--blue-tint);
   border-color: var(--blue);
   color: var(--blue);
+}
+
+/* ── Inbox queue (Phase 4) ── */
+.lp-inbox-meta {
+  margin-bottom: 18px;
+}
+.lp-inbox-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink2);
+}
+.lp-inbox-empty {
+  margin: 48px 0;
+  text-align: center;
+  font-size: 15px;
+  color: var(--ink3);
+}
+.lp-inbox-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.lp-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 2px rgba(13, 20, 41, 0.04);
+}
+.lp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.lp-card-code {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--blue);
+}
+
+/* Waiting badge — text + colour together. */
+.lp-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.lp-badge-muted {
+  color: var(--ink3);
+  background: #f1f2f6;
+  border-color: var(--line);
+}
+.lp-badge-green {
+  color: #0f6b34;
+  background: #e6f6ec;
+  border-color: #bfe6cd;
+}
+.lp-badge-amber {
+  color: #8a5a06;
+  background: #fdf3e0;
+  border-color: #f3dcae;
+}
+.lp-badge-red {
+  color: #a3122a;
+  background: #fbe6ea;
+  border-color: #f1bdc6;
+}
+
+.lp-card-fields {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+.lp-card-row {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 8px;
+  align-items: baseline;
+}
+.lp-card-k {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink3);
+}
+.lp-card-v {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.lp-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+.lp-act {
+  flex: 1 1 calc(50% - 4px);
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--ink2);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+.lp-act:hover:not(:disabled) {
+  background: var(--blue-tint);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.lp-act:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.lp-act-primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+.lp-act-primary:hover:not(:disabled) {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+  color: #fff;
 }

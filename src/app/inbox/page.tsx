@@ -1,10 +1,18 @@
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
 import { COMPANY_NAME } from "@/lib/config";
+import { getWaitingOrders } from "@/lib/orders";
+import InboxFeed from "@/components/InboxFeed";
+
+// Always render fresh: the queue changes constantly and SWR takes over on the client.
+export const dynamic = "force-dynamic";
 
 export default async function InboxPage() {
   const session = await auth();
   if (!session) redirect("/login");
+
+  // Initial paint; SWR re-fetches /api/inbox every ~4s thereafter.
+  const orders = await getWaitingOrders();
 
   return (
     <main className="lp-panel">
@@ -28,10 +36,7 @@ export default async function InboxPage() {
         </div>
       </header>
 
-      <p className="lp-form-sub">
-        Sesión iniciada. La bandeja de pedidos (tarjetas, acciones y colores de
-        espera) se construye en la Fase 4.
-      </p>
+      <InboxFeed initialOrders={orders} />
     </main>
   );
 }
