@@ -831,3 +831,144 @@ body {
   border-color: var(--blue-dark);
   color: #fff;
 }
+
+/* ── Header cross-nav link (inbox ⇄ history) ── */
+.lp-panel-link {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.15s;
+}
+.lp-panel-link:hover {
+  border-bottom-color: var(--blue);
+}
+
+/* ── History table (Phase 6) ── */
+.lp-hist-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.lp-hist-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.lp-hist-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink3);
+}
+.lp-hist-select {
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 140px;
+}
+.lp-hist-select:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+.lp-hist-tablewrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(13, 20, 41, 0.04);
+}
+.lp-hist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.lp-hist-table thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink3);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.lp-hist-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.lp-hist-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.lp-hist-code {
+  font-weight: 800;
+  color: var(--blue);
+  white-space: nowrap;
+}
+.lp-hist-time {
+  color: var(--ink2);
+  white-space: nowrap;
+}
+.lp-hist-status {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.lp-hist-status-waiting {
+  color: #a3122a;
+  background: #fbe6ea;
+  border-color: #f1bdc6;
+}
+.lp-hist-status-dispatched {
+  color: #0f6b34;
+  background: #e6f6ec;
+  border-color: #bfe6cd;
+}
+.lp-hist-status-archived {
+  color: var(--ink3);
+  background: #f1f2f6;
+  border-color: var(--line);
+}
+.lp-hist-action {
+  text-align: right;
+  white-space: nowrap;
+}
+.lp-hist-action .lp-act {
+  flex: none;
+}
+.lp-hist-dash {
+  color: var(--ink3);
+}
+.lp-hist-err {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--warn);
+}
+
+.lp-hist-pager {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+.lp-hist-pager .lp-act {
+  flex: none;
+  min-width: 120px;
+}
