@@ -19,3 +19,13 @@ export function localMMDD(date: Date = new Date()): string {
   const key = localDateKey(date); // YYYY-MM-DD
   return key.slice(5, 7) + key.slice(8, 10);
 }
+
+/**
+ * The instant of local midnight (start of the calendar day in America/La_Paz)
+ * for the given date, as a UTC `Date`. Used as the lower bound of the History
+ * "Hoy" range. La Paz is a fixed UTC−4 offset (no DST), so the local-date key
+ * pinned to `-04:00` resolves to the correct absolute instant.
+ */
+export function startOfLocalDay(date: Date = new Date()): Date {
+  return new Date(`${localDateKey(date)}T00:00:00-04:00`);
+}
